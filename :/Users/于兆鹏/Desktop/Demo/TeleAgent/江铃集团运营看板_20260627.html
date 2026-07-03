@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>江铃集团运营看板 | ArkClaw</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#f0f2f5;color:#333}
+.header{background:linear-gradient(135deg,#1F4E79 0%,#2E75B6 100%);color:#fff;padding:24px 32px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:22px;font-weight:600}
+.header .meta{font-size:13px;opacity:.85;text-align:right}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;margin-left:8px}
+.badge-green{background:#00B050;color:#fff}
+.badge-yellow{background:#FFC000;color:#333}
+.badge-blue{background:#2E75B6;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 24px}
+.card{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:20px}
+.card h3{font-size:15px;color:#1F4E79;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #E8ECF1}
+.score-bar{display:flex;align-items:center;margin:8px 0}
+.score-bar .label{width:80px;font-size:13px;color:#666}
+.score-bar .bar{flex:1;height:20px;background:#E8ECF1;border-radius:10px;overflow:hidden;margin:0 10px}
+.score-bar .fill{height:100%;border-radius:10px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:11px;color:#fff;font-weight:600}
+.score-bar .val{width:50px;font-size:13px;font-weight:600;text-align:right}
+.action-item{display:flex;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.action-item:last-child{border-bottom:none}
+.action-pri{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;margin-right:8px;white-space:nowrap}
+.pri-urgent{background:#FFE0E0;color:#D00}
+.pri-short{background:#FFF3CD;color:#856404}
+.pri-watch{background:#E0ECFF;color:#2E75B6}
+.pri-defer{background:#F0F0F0;color:#999}
+.info-row{display:flex;padding:6px 0;font-size:13px}
+.info-row .k{width:80px;color:#999;flex-shrink:0}
+.info-row .v{color:#333;font-weight:500}
+.evidence-item{display:flex;align-items:center;padding:6px 0;font-size:13px}
+.evidence-item .src{width:80px;color:#2E75B6;font-weight:600}
+.evidence-item .conf{width:50px;text-align:center;font-weight:700}
+.evidence-item .desc{flex:1;color:#555}
+.conf-high{color:#00B050}
+.conf-mid{color:#FFC000}
+.footer{text-align:center;padding:16px;font-size:12px;color:#999}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>江铃集团运营看板 <span class="badge badge-green">商机84 高</span> <span class="badge badge-yellow">风险55 中</span></h1>
+  </div>
+  <div class="meta">
+    汽车制造业 · TOP战略级客户 · 市属国企<br>
+    生成时间：2026-06-27 | ArkClaw L7
+  </div>
+</div>
+
+<div class="grid">
+  <!-- 左上：雷达图 -->
+  <div class="card">
+    <h3>商机评分雷达图（84分）</h3>
+    <div id="radar" style="width:100%;height:300px"></div>
+  </div>
+
+  <!-- 右上：证据置信度 -->
+  <div class="card">
+    <h3>证据链置信度（综合0.89）</h3>
+    <div id="evidenceChart" style="width:100%;height:300px"></div>
+  </div>
+
+  <!-- 左下：建议动作 -->
+  <div class="card">
+    <h3>跟进建议</h3>
+    <div class="action-item"><span class="action-pri pri-urgent">紧急</span>5G专网从1厂扩展至6大制造基地</div>
+    <div class="action-item"><span class="action-pri pri-urgent">紧急</span>云+大数据平台合作（天翼云+5G一体化）</div>
+    <div class="action-item"><span class="action-pri pri-urgent">紧急</span>客户经理月度回访，掌握IT预算动态</div>
+    <div class="action-item"><span class="action-pri pri-urgent">紧急</span>提供ROI量化报告，证明5G专网投资回报</div>
+    <div class="action-item"><span class="action-pri pri-short">短期</span>安全产品体系补全（网络+数据+工控安全）</div>
+    <div class="action-item"><span class="action-pri pri-short">短期</span>锁定3年框架协议，降低年度比价风险</div>
+    <div class="action-item"><span class="action-pri pri-short">短期</span>关注股权变动后采购决策人变化</div>
+    <div class="action-item"><span class="action-pri pri-watch">观察</span>AI大模型应用合作（生产AI+质检AI）</div>
+    <div class="action-item"><span class="action-pri pri-watch">观察</span>海外业务网络优化（40+国家分支机构专线）</div>
+    <div class="action-item"><span class="action-pri pri-defer">暂缓</span>竞品报价对比（待客户反馈后再跟进）</div>
+  </div>
+
+  <!-- 右下：客户信息 -->
+  <div class="card">
+    <h3>客户画像</h3>
+    <div class="info-row"><span class="k">企业</span><span class="v">江铃汽车集团有限公司（JMCG）</span></div>
+    <div class="info-row"><span class="k">行业</span><span class="v">汽车制造业（商用车+乘用车+新能源）</span></div>
+    <div class="info-row"><span class="k">性质</span><span class="v">市属国企 · 中国企业500强第225位</span></div>
+    <div class="info-row"><span class="k">营收</span><span class="v">1269.6亿元（2025年，+2.07% YoY）</span></div>
+    <div class="info-row"><span class="k">销量</span><span class="v">52万辆（+10.5% YoY）</span></div>
+    <div class="info-row"><span class="k">新能源</span><span class="v">+20.2% YoY · 出口+38.4% YoY</span></div>
+    <div class="info-row"><span class="k">员工</span><span class="v">约17,000人</span></div>
+    <div class="info-row"><span class="k">基地</span><span class="v">6大整车制造基地+完善零部件产业链</span></div>
+    <div class="info-row"><span class="k">5G现状</span><span class="v">1厂已部署（工信部认定） · 5厂待扩展</span></div>
+    <div class="info-row"><span class="k">数转</span><span class="v">2026年4月数转工作会议 · 4家省级数智工厂</span></div>
+    <div style="margin-top:12px;padding-top:10px;border-top:1px solid #f0f0f0">
+      <div style="font-size:13px;color:#999;margin-bottom:6px">风险信号</div>
+      <div class="info-row"><span class="k">利润</span><span class="v" style="color:#D00">扣非净利润下降45.38%</span></div>
+      <div class="info-row"><span class="k">股权</span><span class="v" style="color:#FFC000">江铃控股股权变动</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 风险评分条 -->
+<div style="padding:0 24px 16px">
+  <div class="card">
+    <h3>流失风险评分（55分 · 中等）</h3>
+    <div class="score-bar"><span class="label">合同依赖度</span><div class="bar"><div class="fill" style="width:60%;background:#FFC000">6</div></div><span class="val">15.0</span></div>
+    <div class="score-bar"><span class="label">利润健康度</span><div class="bar"><div class="fill" style="width:70%;background:#FF6600">7</div></div><span class="val">17.5</span></div>
+    <div class="score-bar"><span class="label">替代风险</span><div class="bar"><div class="fill" style="width:50%;background:#FFC000">5</div></div><span class="val">10.0</span></div>
+    <div class="score-bar"><span class="label">满意度风险</span><div class="bar"><div class="fill" style="width:30%;background:#00B050">3</div></div><span class="val">6.0</span></div>
+    <div class="score-bar"><span class="label">决策变动</span><div class="bar"><div class="fill" style="width:60%;background:#FFC000">6</div></div><span class="val">6.0</span></div>
+  </div>
+</div>
+
+<div class="footer">ArkClaw L7大师级综合编排 · 8步闭环 · 江西电信政企客户智能运营助手 · 2026-06-27</div>
+
+<script>
+var radar = echarts.init(document.getElementById('radar'));
+radar.setOption({
+  color:['#2E75B6'],
+  radar:{indicator:[
+    {name:'客户价值',max:10},{name:'数字化需求',max:10},
+    {name:'合作基础',max:10},{name:'增长潜力',max:10},
+    {name:'竞争壁垒',max:10}
+  ],shape:'polygon',splitNumber:5,axisName:{color:'#666',fontSize:12},splitArea:{areaStyle:{color:['#f7f9fc','#eef2f7','#e5ebf3','#dce4ef','#d3ddeb']}}},
+  series:[{type:'radar',data:[{value:[9,9,8,8,7],name:'商机评分',areaStyle:{color:'rgba(46,117,182,0.25)'},lineStyle:{width:2},itemStyle:{color:'#2E75B6'}}]}]
+});
+
+var evChart = echarts.init(document.getElementById('evidenceChart'));
+evChart.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  grid:{left:90,right:40,top:20,bottom:30},
+  xAxis:{type:'value',max:1,axisLabel:{formatter:function(v){return(v*100)+'%'}}},
+  yAxis:{type:'category',data:['产品知识库','客户画像','企业官网','省工信厅/市政府','工信部认定','公开财报'],axisLabel:{fontSize:12}},
+  series:[{type:'bar',data:[
+    {value:0.80,itemStyle:{color:'#FFC000'}},
+    {value:0.85,itemStyle:{color:'#FFC000'}},
+    {value:0.90,itemStyle:{color:'#00B050'}},
+    {value:0.90,itemStyle:{color:'#00B050'}},
+    {value:0.95,itemStyle:{color:'#00B050'}},
+    {value:0.95,itemStyle:{color:'#00B050'}}
+  ],barWidth:20,label:{show:true,position:'right',formatter:function(p){return p.value},fontSize:12}}]
+});
+
+window.addEventListener('resize',function(){radar.resize();evChart.resize()});
+</script>
+</body>
+</html>
