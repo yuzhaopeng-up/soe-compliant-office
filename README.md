@@ -1,7 +1,7 @@
 # SOE Compliant Office Skills
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Skills-17_(Phase1_8_done)-blue" alt="17 Skills" />
+  <img src="https://img.shields.io/badge/Skills-17_(Phase1+2_done)-blue" alt="17 Skills" />
   <img src="https://img.shields.io/badge/Python-3.8+-green" alt="Python 3.8+" />
   <img src="https://img.shields.io/badge/License-Apache--2.0-yellow" alt="License" />
   <img src="https://img.shields.io/badge/SOE-Compliant-orange" alt="SOE Compliant" />
@@ -78,6 +78,57 @@ shared/ooxml/
 │   └── validate.py   # Schema + relationship validation
 ```
 
+## Phase 2: Compliance & Security (6 Skills — Available Now)
+
+### L3: Compliance Framework
+
+| Skill | Type | Key Capability | SOE Feature |
+|-------|------|---------------|-------------|
+| **six-dimension-compliance-check** | Prompt | 6-dimension systematic compliance review (scenario/parameter/logic/output/security/archival) | 三重一大集体决策检查, 党委前置审议, 穿透式监管, DA/T归档标准, A-D级合规评级 |
+| **human-in-loop** | Prompt | L1-L5 risk-graded approval, 4-Phase pipeline (Info-Extractor→Security-Guard→Report→Archive) | 三重一大强制人工确认, 两人会签制度, 13710督办, 党委审议前置流程 |
+| **security-guard** | Prompt | Permission check, data scope validation, sensitive field detection, audit trail verification | 最小权限原则, 数据分级分类(GB/T 35273), 高危动作双人确认, 首席合规官审核 |
+
+### L4: Security Audit & Testing
+
+| Skill | Type | Key Capability | SOE Feature |
+|-------|------|---------------|-------------|
+| **security-auditor** | Prompt | 4-Phase automated audit (Info-Extract→Security-Guard→Data-Analyst→Report), D-A security rating | Skill上线门禁, 权限收敛闭环, soe_basic/soe_enhanced双合规标准, F/D级自动告警 |
+| **evidence-chain** | Prompt | Multi-source cross-validation, conflict detection, confidence scoring, root cause inference | 巡视整改证据链, 投诉核查多源对证, 合规审查冲突检测, 故障定责三维推断 |
+| **red-team-tester** | Prompt | 6-round progressive adversarial testing, defense maturity grading (脆弱→坚固) | 等保合规验证, 首席合规官签审, 信创环境安全测试, 与Security-Auditor形成静态+动态闭环 |
+
+### Cross-Domain Compliance Flow
+
+```
+                    ┌─────────────────────────────┐
+                    │   Skill Deployment Pipeline  │
+                    └─────────────────────────────┘
+                                  │
+                    ┌─────────────▼──────────────┐
+                    │  six-dimension-compliance   │  ← 6维合规前置检查
+                    │  -check (前置审查)           │
+                    └─────────────┬──────────────┘
+                                  │ A/B级通过
+                    ┌─────────────▼──────────────┐
+                    │  security-auditor           │  ← 静态安全审计
+                    │  (静态审计, D-A评级)         │
+                    └─────────────┬──────────────┘
+                                  │ B级以上通过
+                    ┌─────────────▼──────────────┐
+                    │  red-team-tester            │  ← 动态红队验证
+                    │  (动态对抗测试)              │
+                    └─────────────┬──────────────┘
+                                  │ 🟢良好以上
+                    ┌─────────────▼──────────────┐
+                    │  human-in-loop              │  ← 上线运行时守门
+                    │  (运行时审批守门)            │
+                    └─────────────┬──────────────┘
+                                  │ L4+需人工确认
+                    ┌─────────────▼──────────────┐
+                    │  evidence-chain             │  ← 事后审计追溯
+                    │  (事后证据链审计)            │
+                    └────────────────────────────┘
+```
+
 ## Quick Start
 
 ```bash
@@ -143,7 +194,7 @@ result = engine.run({
 | Phase | Domain | Skills | Status |
 |-------|--------|--------|--------|
 | Phase 1 | Document Operations | 8 skills (pptx, docx, xlsx, pdf, contract-review, diagram-drawing, meeting-minutes, print) | **Done** |
-| Phase 2 | Compliance & Security | 6 skills (6-dim compliance check, human-in-loop, security-guard, security-auditor, evidence-chain, red-team-tester) | Planned |
+| Phase 2 | Compliance & Security | 6 skills (6-dim compliance check, human-in-loop, security-guard, security-auditor, evidence-chain, red-team-tester) | **Done** |
 | Phase 3 | Reporting & Analysis | 6 skills (report-generator, data-analyst, finance-expert, business-analysis, gov-report-analyzer, social-security) | Planned |
 
 ## Ecosystem
