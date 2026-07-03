@@ -1,7 +1,7 @@
 # SOE Compliant Office Skills
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Skills-17_(Phase1+2_done)-blue" alt="17 Skills" />
+  <img src="https://img.shields.io/badge/Skills-17_(All_Done)-blue" alt="17 Skills" />
   <img src="https://img.shields.io/badge/Python-3.8+-green" alt="Python 3.8+" />
   <img src="https://img.shields.io/badge/License-Apache--2.0-yellow" alt="License" />
   <img src="https://img.shields.io/badge/SOE-Compliant-orange" alt="SOE Compliant" />
@@ -129,6 +129,52 @@ shared/ooxml/
                     └────────────────────────────┘
 ```
 
+## Phase 3: Reporting & Analysis (6 Skills — Available Now)
+
+### L5: Reporting Engine
+
+| Skill | Type | Key Capability | SOE Feature |
+|-------|------|---------------|-------------|
+| **report-generator** | Prompt | 6 report types (daily/weekly/meeting/review/brief/customer), 4-Phase auto-generation | 国资委月报/快报双头报送模板, GB/T 9704报告格式, DA/T归档标准, 13710督办跟进 |
+| **data-analyst** | Prompt | 5-dimension analysis (summary/trend/anomaly/comparison/insight), 7 SOE scenarios | 穿透式监管数据呈现, 一利五率指标分析, 全级次多维度拆解, 国资委考核数据适配 |
+| **finance-expert** | Prompt | Financial analysis + tax computation + budget control | EVA经济增加值, 国资委考核指标体系, 中央企业合规管理, 央国企财务报表规范 |
+
+### L6: Strategic Analysis
+
+| Skill | Type | Key Capability | SOE Feature |
+|-------|------|---------------|-------------|
+| **business-analysis** | Prompt | 5-layer operational analysis framework (data→trend→anomaly→comparison→insight) | "一利五率"KPI体系, 预算差异分析, 成本费用归口管理, 央国企经营诊断模板 |
+| **gov-report-analyzer** | Prompt | 6-dimension government report interpretation, policy force index, A-share sector impact | 政府工作报告解读, 中央经济工作会议分析, 五年规划对标, 政策信号→板块影响映射 |
+| **social-security-advisor** | Prompt+Python | 5-insurance calculation + retirement projection + gap analysis, Python engine included | 央国企社保合规审查, 企业年金测算, 延迟退休影响分析, 4050补贴政策适配 |
+
+### Reporting Pipeline
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  SOE Reporting Pipeline                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────┐    ┌──────────┐    ┌──────────────────┐      │
+│  │  data    │───→│ finance/ │───→│  report          │      │
+│  │  analyst │    │ business │    │  generator       │      │
+│  └──────────┘    └──────────┘    └──────────────────┘      │
+│       │               │                  │                  │
+│       ▼               ▼                  ▼                  │
+│  穿透式数据       一利五率指标       国资委月报/快报         │
+│  全级次拆解       EVA/预算差异      GB/T 9704格式            │
+│                                                             │
+│  ┌──────────────────┐    ┌──────────────────────┐          │
+│  │  gov-report      │    │  social-security     │          │
+│  │  analyzer        │    │  advisor             │          │
+│  └──────────────────┘    └──────────────────────┘          │
+│       │                         │                           │
+│       ▼                         ▼                           │
+│  政策信号→战略调整         五险一金合规+精算            │
+│  板块影响→投资决策         延迟退休+年金测算            │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
 ## Quick Start
 
 ```bash
@@ -195,7 +241,7 @@ result = engine.run({
 |-------|--------|--------|--------|
 | Phase 1 | Document Operations | 8 skills (pptx, docx, xlsx, pdf, contract-review, diagram-drawing, meeting-minutes, print) | **Done** |
 | Phase 2 | Compliance & Security | 6 skills (6-dim compliance check, human-in-loop, security-guard, security-auditor, evidence-chain, red-team-tester) | **Done** |
-| Phase 3 | Reporting & Analysis | 6 skills (report-generator, data-analyst, finance-expert, business-analysis, gov-report-analyzer, social-security) | Planned |
+| Phase 3 | Reporting & Analysis | 6 skills (report-generator, data-analyst, finance-expert, business-analysis, gov-report-analyzer, social-security) | **Done** |
 
 ## Ecosystem
 
