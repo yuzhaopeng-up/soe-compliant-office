@@ -129,7 +129,7 @@ Every skill must declare its SOE relevance (1-5) in SKILL.md frontmatter:
 |-------|--------|--------|--------|
 | Phase 1 | Document Operations | pptx, docx, xlsx, pdf, contract-review, diagram-drawing, meeting-minutes, print | **DONE** |
 | Phase 2 | Compliance & Security | six-dimension-compliance-check, human-in-loop, security-guard, security-auditor, evidence-chain, red-team-tester | **DONE** |
-| Phase 3 | Reporting & Analysis | report-generator, data-analyst, finance-expert, business-analysis, gov-report-analyzer, social-security-advisor | PLANNED |
+| Phase 3 | Reporting & Analysis | report-generator, data-analyst, finance-expert, business-analysis, gov-report-analyzer, social-security-advisor | **DONE** |
 
 ## Shared Infrastructure Ownership
 
