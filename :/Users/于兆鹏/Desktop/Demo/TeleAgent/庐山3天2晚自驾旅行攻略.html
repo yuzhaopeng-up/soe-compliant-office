@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>庐山3天2晚自驾旅行计划</title>
+<style>
+:root{--green:#1B5E20;--green-l:#2E7D32;--green-bg:#F1F8E9;--red:#C62828;--orange:#E65100;--gray:#666;--gray-l:#999;--white:#fff;--shadow:0 2px 12px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#f5f5f5;color:#333;line-height:1.7}
+.hero{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 50%,#43A047 100%);color:#fff;text-align:center;padding:48px 20px 36px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:-30px;left:0;right:0;height:60px;background:#f5f5f5;border-radius:50% 50% 0 0}
+.hero h1{font-size:2em;letter-spacing:2px;margin-bottom:8px}
+.hero .sub{font-size:.95em;opacity:.9;margin-bottom:4px}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 16px;font-size:.8em;margin:4px}
+.container{max-width:900px;margin:0 auto;padding:0 16px 60px}
+.tabs{display:flex;gap:0;background:#fff;border-radius:12px;overflow:hidden;margin-top:-20px;position:relative;z-index:2;box-shadow:var(--shadow);flex-wrap:wrap}
+.tab{flex:1;min-width:80px;padding:14px 8px;text-align:center;cursor:pointer;font-size:.85em;color:var(--gray);border-bottom:3px solid transparent;transition:.2s}
+.tab:hover{background:var(--green-bg);color:var(--green)}
+.tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:700;background:var(--green-bg)}
+.panel{display:none;background:#fff;border-radius:0 0 12px 12px;padding:24px 20px;margin-bottom:20px;box-shadow:var(--shadow)}
+.panel.active{display:block}
+h2{color:var(--green);font-size:1.3em;margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--green-bg)}
+h2:first-child{margin-top:0}
+h3{color:var(--green-l);font-size:1.05em;margin:16px 0 8px}
+.card{background:#fafafa;border-radius:10px;padding:16px;margin:10px 0;border-left:4px solid var(--green)}
+.card.warn{border-left-color:var(--orange);background:#FFF8E1}
+.card.danger{border-left-color:var(--red);background:#FFEBEE}
+.card h4{margin-bottom:6px}
+.source{font-size:.78em;color:var(--gray-l);font-style:italic;margin:4px 0 10px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.88em}
+th{background:var(--green);color:#fff;padding:10px 8px;text-align:left;font-weight:600}
+td{padding:8px;border-bottom:1px solid #e0e0e0}
+tr:nth-child(even) td{background:var(--green-bg)}
+.price{text-align:right;white-space:nowrap}
+.total td{font-weight:700;color:var(--green);border-top:2px solid var(--green)}
+ul{padding-left:20px;margin:8px 0}
+li{margin:6px 0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.tag{display:inline-block;padding:3px 12px;border-radius:16px;font-size:.78em}
+.tag-green{background:var(--green-bg);color:var(--green)}
+.tag-red{background:#FFEBEE;color:var(--red)}
+.tag-orange{background:#FFF3E0;color:var(--orange)}
+.day-label{display:inline-block;background:var(--green);color:#fff;border-radius:20px;padding:4px 16px;font-size:.85em;margin:16px 0 10px;font-weight:600}
+.itinerary{position:relative;padding-left:24px;border-left:2px solid var(--green-bg);margin-left:8px}
+.itinerary .step{position:relative;margin:14px 0}
+.itinerary .step::before{content:'';position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--green);border:2px solid #fff;box-shadow:0 0 0 2px var(--green)}
+.itinerary .time{color:var(--green-l);font-weight:600;font-size:.9em}
+.itinerary .desc{font-size:.9em;color:#444}
+.check-list{list-style:none;padding:0}
+.check-list li{padding:8px 12px;margin:4px 0;border-radius:8px;background:var(--green-bg);font-size:.9em;display:flex;align-items:center;gap:8px}
+.check-list li::before{content:'☐';font-size:1.1em}
+.footer{text-align:center;padding:20px;color:var(--gray-l);font-size:.78em;border-top:1px solid #e0e0e0;margin-top:30px}
+@media(max-width:600px){.hero h1{font-size:1.5em}.tab{font-size:.75em;padding:10px 4px}table{font-size:.8em}th,td{padding:6px 4px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>庐山 3天2晚 自驾旅行计划</h1>
+  <div class="sub">2人出行 | 预算5000元 | 自驾 | 江西九江庐山</div>
+  <div><span class="badge">3-Phase 出稿</span><span class="badge">Phase1 情报+Phase2 生产+Phase3 质检</span></div>
+</div>
+
+<div class="container">
+<div class="tabs" id="tabs">
+  <div class="tab active" data-p="summary">执行摘要</div>
+  <div class="tab" data-p="spots">必游景点</div>
+  <div class="tab" data-p="food">美食住宿</div>
+  <div class="tab" data-p="drive">自驾交通</div>
+  <div class="tab" data-p="itinerary">3天行程</div>
+  <div class="tab" data-p="budget">预算明细</div>
+  <div class="tab" data-p="pitfalls">避坑指南</div>
+  <div class="tab" data-p="gear">装备清单</div>
+</div>
+
+<!-- 执行摘要 -->
+<div class="panel active" id="p-summary">
+  <div class="card">
+    <h4>核心结论</h4>
+    庐山3天2晚2人自驾游，总预算约<b>3400-4650元</b>（非旺季/旺季），在5000元预算内完全可行。山上住牯岭镇2晚，东线+西线+人文3天可覆盖核心景观。
+  </div>
+  <div class="card danger">
+    <h4>重大法律纠偏</h4>
+    <b>庐山石鸡（棘胸蛙）为国家"三有"保护动物</b>，2020年起法律明令禁食禁售！常见欺诈：商家用牛蛙冒充石鸡，168元一盘实为冻青蛙。本攻略所有推荐已排除石鸡菜品。
+  </div>
+  <p class="source">来源：百家号2026-03-05《庐山旅游避坑篇》；江西省2020年修订《禁止非法交易和食用野生动物办法》</p>
+</div>
+
+<!-- 必游景点 -->
+<div class="panel" id="p-spots">
+  <h2>必游景点（Phase1 强推清单交叉验证）</h2>
+  <p class="source">排名依据：去哪儿必玩榜评分+大众点评2025必玩榜+携程4.5+评分交叉验证</p>
+  <table>
+    <tr><th>#</th><th>景点</th><th>核心亮点</th><th>耗时/提示</th></tr>
+    <tr><td>1</td><td><b>三叠泉</b></td><td>"庐山第一奇观"，落差155米三级瀑布</td><td>2-3h，1300级台阶，需提前3天预约</td></tr>
+    <tr><td>2</td><td><b>含鄱口</b></td><td>望鄱亭观日出+远眺鄱阳湖</td><td>1-2h，建议5:30前到</td></tr>
+    <tr><td>3</td><td><b>五老峰</b></td><td>五峰并列，云海翻涌，李白诗境</td><td>2-3h登顶第五峰，防滑鞋必穿</td></tr>
+    <tr><td>4</td><td><b>如琴湖+花径</b></td><td>碧波+白居易"人间四月芳菲尽"题诗处</td><td>1-1.5h，晨雾最美</td></tr>
+    <tr><td>5</td><td><b>锦绣谷+仙人洞</b></td><td>悬崖栈道+毛泽东诗+野生猕猴</td><td>1.5-2h，偶遇猕猴注意安全</td></tr>
+    <tr><td>6</td><td><b>美庐别墅</b></td><td>蒋宋旧居，民国风拍照</td><td>1h，25元/人</td></tr>
+    <tr><td>7</td><td><b>牯岭镇</b></td><td>海拔1164m云端小镇，636栋万国别墅</td><td>傍晚逛街+夜景</td></tr>
+    <tr><td>8</td><td><b>芦林湖+三宝树</b></td><td>高山湖泊+千年银杏/柳杉</td><td>1h，平缓路线</td></tr>
+  </table>
+  <div class="card">
+    <b>门票政策：</b>大门票160元/人（7日有效）；65岁以上免票；2026年3月全月免票。
+    <p class="source">来源：九江市文广新旅局官网2026-01-19/01-24/02-27公告</p>
+  </div>
+</div>
+
+<!-- 美食住宿 -->
+<div class="panel" id="p-food">
+  <h2>特色美食（含法律合规纠偏）</h2>
+  <div class="card danger">
+    <b>[法律红线]</b> 庐山石鸡=棘胸蛙=国家"三有"保护动物，禁食禁售！景区内以牛蛙冒充石鸡是常见欺诈行为。以下推荐已全部排除石鸡菜品。
+  </div>
+  <h3>安全推荐清单</h3>
+  <ul>
+    <li><b>庐山石鱼爆蛋</b>：庐山溪流透明小鱼，鲜嫩味醇，赣菜名品</li>
+    <li><b>酥皮石耳炖土鸡</b>：石耳为庐山珍菌，"庐山肴"评选银奖</li>
+    <li><b>脆皮石鱼卷</b>：外脆里嫩传统名菜</li>
+    <li><b>云雾茶香鸭</b>：鸭肉与庐山云雾茶鲜卤，一抿脱骨</li>
+    <li><b>庐山小土豆</b>：外酥里糯，牯岭街热门小吃</li>
+    <li><b>鄱阳湖银鱼蒸蛋</b>：嫩滑鲜香，湖鲜特色</li>
+    <li><b>庐山茶饼/桂花酥糖</b>：传统糕点伴手礼，MAIGOO排行第1</li>
+    <li><b>星子八大碗</b>：庐山市传统宴席菜，九江市非遗</li>
+  </ul>
+  <h3>推荐餐厅</h3>
+  <ul>
+    <li><b>金四季土菜馆</b>：平价美味，下山首冲（携程2026-06-15推荐）</li>
+    <li><b>847别墅餐厅</b>：去哪儿4.9分84评，别墅改造传承菜</li>
+    <li><b>石牛酒家</b>：牯岭街老字号，石耳炒蛋正宗</li>
+    <li><b>庐山三石饭店</b>：去哪儿4.0分32评，山里土菜</li>
+  </ul>
+
+  <h2>住宿推荐</h2>
+  <p class="source">来源：新浪2026-06-21/22住宿攻略；携程酒店列表；百度百科；大众点评</p>
+  <table>
+    <tr><th>名称</th><th>参考价</th><th>特点</th><th>适合</th></tr>
+    <tr><td><b>祈福紫庐酒店</b></td><td>500-800</td><td>4钻新中式，海拔1317m，露天恒温汤泉</td><td>品质度假</td></tr>
+    <tr><td><b>庐山宾馆</b></td><td>600-1100</td><td>高档榜第1，4.8分866评，充电桩</td><td>家庭/商务</td></tr>
+    <tr><td><b>庐山悦漫山舍</b></td><td>350-600</td><td>索道上站店，4.8分，管家接送</td><td>自驾+舒适</td></tr>
+    <tr><td><b>云上归墅</b></td><td>300-500</td><td>推窗云海，自家茶园咖啡</td><td>品质民宿</td></tr>
+    <tr><td><b>庐山大林初见别墅</b></td><td>400-700</td><td>高档榜第2，4.8分1502评</td><td>文艺度假</td></tr>
+    <tr><td><b>麗枫酒店</b></td><td>约280</td><td>离索道口最近，三钻新店</td><td>性价比</td></tr>
+    <tr><td><b>庐山云栖客栈</b></td><td>200-350</td><td>牯岭正街，老板送地图</td><td>平价出行</td></tr>
+  </table>
+  <div class="card">2晚预算方案：A) 舒适性 900-1400元；B) 品质型 1000-1600元。旺季上浮50%-100%，请提前2周预订。</div>
+</div>
+
+<!-- 自驾交通 -->
+<div class="panel" id="p-drive">
+  <h2>自驾交通方案（2026最新政策）</h2>
+  <p class="source">来源：九江市文广新旅局2026-04-24通告；新浪2026-06-26自驾攻略；携程攻略；汽车之家</p>
+  <div class="card warn">
+    <h4>旺季（7-8月/五一/国庆）</h4>
+    <b>禁止私家车上山！</b> 车停南/北门换乘中心（白天15元/晚25元）或索道下站，换乘观光车90元/7日通票或索道120元往返（10分钟直达）。旺季观光车排队30分钟起，司机"飙车"式驾驶，<b>晕车药必备</b>！
+  </div>
+  <div class="card">
+    <h4>非旺季非节假日</h4>
+    可自驾上山。微信/支付宝搜<b>"一机游庐山"</b>小程序预约车辆进山+门票。进山费45元/车（72小时有效，超时1元/h），新能源减5元。车辆饱和时"出一进一"，务必提前预约。
+  </div>
+  <div class="card warn">
+    <h4>冰雪/极端天气</h4>
+    临时管制，强制换乘（来源：庐山市公安局2026-02-09通告）
+  </div>
+  <h3>路线选择</h3>
+  <ul>
+    <li><b>南昌方向→南门</b>：G56杭瑞高速，距庐山高铁站近，省半小时</li>
+    <li><b>九江方向→北门</b>：G70福银高速出口直达，传统主入口，1300车位</li>
+    <li><b>高铁+索道推荐</b>：认准"庐山站"（非九江站），免费摆渡车10分钟到索道站，索道7-10分钟直达牯岭镇</li>
+  </ul>
+  <div class="card danger">
+    <b>导航避坑：</b>设"庐山北门换乘中心"或"南门"，<b>勿设"庐山市"</b>（离景区20km）！
+  </div>
+</div>
+
+<!-- 3天行程 -->
+<div class="panel" id="p-itinerary">
+  <h2>3天2晚行程安排</h2>
+  <p class="source">综合：知乎/携程/大众点评/百家号3天2晚攻略交叉编排</p>
+
+  <div class="day-label">Day 1 西线人文之旅（轻松适应）</div>
+  <div class="itinerary">
+    <div class="step"><div class="time">上午</div><div class="desc">自驾抵达庐山，预约上山至牯岭镇（旺季换乘观光车）；入住酒店</div></div>
+    <div class="step"><div class="time">下午</div><div class="desc">街心公园 → 如琴湖（晨雾最美） → 花径（白居易题诗处） → 锦绣谷（好运石+悬崖栈道） → 仙人洞（遇猕猴注意安全！）</div></div>
+    <div class="step"><div class="time">傍晚</div><div class="desc">牯岭镇晚餐（推荐石耳炖土鸡+云雾茶香鸭），看《庐山恋》电影</div></div>
+  </div>
+
+  <div class="day-label">Day 2 东线自然奇观（体力重点日）</div>
+  <div class="itinerary">
+    <div class="step"><div class="time">清晨5:30</div><div class="desc">含鄱口看日出（望鄱亭+远眺鄱阳湖，备薄羽绒服！）</div></div>
+    <div class="step"><div class="time">上午</div><div class="desc">五老峰登顶（2-3h，防滑鞋必穿，四峰长焦拍九江全景）</div></div>
+    <div class="step"><div class="time">下午</div><div class="desc">三叠泉（1300级台阶，保命三件套：竹杖+速干衣+防滑鞋；建议坐小火车80元往返到入口再下行），瀑布底层广角仰拍最壮观</div></div>
+    <div class="step"><div class="time">晚上</div><div class="desc">牯岭镇晚餐（银鱼蒸蛋+小土豆），休息恢复体力</div></div>
+  </div>
+
+  <div class="day-label">Day 3 人文体验 + 下山</div>
+  <div class="itinerary">
+    <div class="step"><div class="time">上午</div><div class="desc">美庐别墅 → 庐山会议旧址 → 庐山博物馆 → 芦林湖 → 三宝树</div></div>
+    <div class="step"><div class="time">可选</div><div class="desc">白鹿洞书院（山下环山景区，车程20分钟，中国四大书院之一，门票40元）</div></div>
+    <div class="step"><div class="time">下午</div><div class="desc">采购云雾茶/茶饼等特产（牯岭街溢价高，建议九江市区购买），自驾下山返程</div></div>
+  </div>
+</div>
+
+<!-- 预算明细 -->
+<div class="panel" id="p-budget">
+  <h2>预算明细（2人）</h2>
+  <table>
+    <tr><th>项目</th><th class="price">非旺季</th><th class="price">旺季</th><th>说明</th></tr>
+    <tr><td>景区大门票</td><td class="price">320元</td><td class="price">320元</td><td>160元/人×2，7日有效</td></tr>
+    <tr><td>观光车通票</td><td class="price">180元</td><td class="price">180元</td><td>90元/人×2，7日有效</td></tr>
+    <tr><td>自驾进山费</td><td class="price">45元</td><td class="price">0元</td><td>非旺季45元/车；旺季禁驾</td></tr>
+    <tr><td>旺季停车费</td><td class="price">0元</td><td class="price">50元</td><td>换乘中心白天15+过夜25</td></tr>
+    <tr><td>索道（旺季用）</td><td class="price">0元</td><td class="price">240元</td><td>120元/人×2往返</td></tr>
+    <tr><td>住宿2晚</td><td class="price">800元</td><td class="price">1400元</td><td>中档400/晚 vs 旺季700/晚</td></tr>
+    <tr><td>餐饮3天</td><td class="price">1000元</td><td class="price">1200元</td><td>约200元/天/人×2×3天</td></tr>
+    <tr><td>油费+高速</td><td class="price">600元</td><td class="price">600元</td><td>（待核实）视出发地距</td></tr>
+    <tr><td>三叠泉小火车</td><td class="price">160元</td><td class="price">160元</td><td>80元/人×2往返，可选</td></tr>
+    <tr><td>特产/杂费</td><td class="price">400元</td><td class="price">500元</td><td>云雾茶+茶饼等</td></tr>
+    <tr class="total"><td><b>合计</b></td><td class="price"><b>约3,425元</b></td><td class="price"><b>约4,650元</b></td><td>均在5000元预算内</td></tr>
+  </table>
+  <div class="tags">
+    <span class="tag tag-green">预算充裕</span>
+    <span class="tag tag-orange">油费视出发地待核实</span>
+  </div>
+</div>
+
+<!-- 避坑指南 -->
+<div class="panel" id="p-pitfalls">
+  <h2>避坑指南（Phase1 社交平台交叉验证）</h2>
+  <p class="source">来源：携程游客实拍2026-06-23；百家号2026-03-05/2025-10-29/2026-06-04；知乎；大众点评</p>
+
+  <div class="card danger">
+    <h4>R1 "庐山石鸡"菜品</h4>
+    棘胸蛙属国家"三有"保护动物，法律禁食禁售；商家常用牛蛙冒充，168元一盘是冻青蛙。<br><b>对策：</b>绝不点"石鸡"；点石鱼/石耳/茶香鸭等合法替代
+  </div>
+  <div class="card danger">
+    <h4>R2 198元低价一日游</h4>
+    凌晨拉去购物店耗2小时，到景区只剩1小时。<br><b>对策：</b>绝不参加低价团；自驾最自由
+  </div>
+  <div class="card danger">
+    <h4>R3 黄牛"内部票/逃票路线"</h4>
+    全是骗局，不仅骗钱还可能被罚款。<br><b>对策：</b>只在"一机游庐山"官方小程序预约购票
+  </div>
+  <div class="card warn">
+    <h4>R4 导航"庐山市"</h4>
+    庐山市区离核心景区20km，拖着行李白跑。<br><b>对策：</b>导航设"庐山北门换乘中心"或"南门"
+  </div>
+  <div class="card warn">
+    <h4>R5 旺季观光车晕车</h4>
+    400多个弯道+司机"飙车"，游客吐到怀疑人生。<br><b>对策：</b>晕车药必服；或选索道7分钟直达
+  </div>
+  <div class="card">
+    <h4>R6 景区餐馆结账临时抬价</h4>
+    点菜前确认价格，留好小票
+  </div>
+  <div class="card warn">
+    <h4>R7 东林大佛门口高价祈福饰品</h4>
+    小贩推销开光法器，价格虚高。<b>对策：</b>不买不碰，官方无需付费祈福
+  </div>
+  <div class="card">
+    <h4>R8 牯岭街特产溢价高</h4>
+    山上纪念品比山下贵30%-50%。<b>对策：</b>伴手礼优先九江市区/线上购买
+  </div>
+  <div class="card warn">
+    <h4>R9 三叠泉不预约白跑</h4>
+    需提前3天预约，现场排号2小时起步。<b>对策：</b>"一机游庐山"提前3天预约
+  </div>
+</div>
+
+<!-- 装备清单 -->
+<div class="panel" id="p-gear">
+  <h2>必备装备清单</h2>
+  <p class="source">来源：百家号2025-07/2026-05避雷攻略；百度2026-04笔记；大众点评2025-08</p>
+  <ul class="check-list">
+    <li>防滑运动鞋（浅色鞋易染泥）+ 折叠登山杖（省力30%）</li>
+    <li>轻便雨衣（比雨伞实用，瀑布水雾大）</li>
+    <li>薄羽绒服/防风外套（山上比山下低7-10度，7月看日出仍需薄羽绒）</li>
+    <li>2万毫安充电宝（联通在五老峰可能无信号，提前下载离线地图）</li>
+    <li>晕车药+感冒药+驱蚊液</li>
+    <li>自热食品（景区餐饮贵且排队，三叠泉附近无餐饮）</li>
+  </ul>
+
+  <h2>安全重点提醒（Phase3质检补充）</h2>
+  <div class="card danger">
+    <h4>山路驾驶安全</h4>
+    非旺季自驾上山有400多个弯道，夜间山路无路灯，严禁疲劳驾驶/夜间首驾。新手司机不建议自驾上山，换乘更安全。
+  </div>
+  <div class="card warn">
+    <h4>雷暴天气避雷</h4>
+    庐山夏秋季午后多雷暴，雷雨天切勿在五老峰、含鄱口等开阔高地停留，立即下撤至低洼处或室内。
+  </div>
+  <div class="card warn">
+    <h4>紫外线防护</h4>
+    山上海拔1100m+紫外线较强，三叠泉/五老峰等无遮荫路段需SPF50+防晒霜+遮阳帽，避免午间暴晒。
+  </div>
+  <p class="source">Phase3质检补充：基于庐山海拔、气候特征及山路条件综合评估</p>
+
+  <h2>信息来源汇总</h2>
+  <table>
+    <tr><th>#</th><th>来源</th><th>URL/说明</th></tr>
+    <tr><td>1</td><td>九江市文广新旅局</td><td>门票/通告/非遗名录/评选</td></tr>
+    <tr><td>2</td><td>中国九江网</td><td>庐山三石宴官方介绍</td></tr>
+    <tr><td>3</td><td>百度百科</td><td>景点/美食/高档酒店词条</td></tr>
+    <tr><td>4</td><td>去哪儿必玩榜</td><td>景点评分/排名/美食榜</td></tr>
+    <tr><td>5</td><td>携程旅行网</td><td>酒店/门票/攻略/游客实拍</td></tr>
+    <tr><td>6</td><td>新浪旅游</td><td>住宿/自驾/景点攻略2026-06</td></tr>
+    <tr><td>7</td><td>MAIGOO买购网</td><td>庐山十大美食排行</td></tr>
+    <tr><td>8</td><td>大众点评</td><td>住宿/餐饮/避坑真实评价</td></tr>
+    <tr><td>9</td><td>百家号/搜狐</td><td>避坑/政策/法律合规/攻略解读</td></tr>
+    <tr><td>10</td><td>知乎</td><td>3天2晚行程/游客经验</td></tr>
+    <tr><td>11</td><td>0792u九江国旅</td><td>门票价格汇总</td></tr>
+  </table>
+  <div class="card">标注说明："(待核实)"=搜索中未找到权威官方来源确认，建议出行前致电庐山游客服务热线 <b>0792-8296666</b> 核实。</div>
+</div>
+
+</div>
+
+<div class="footer">
+  庐山3天2晚自驾旅行计划 | 3-Phase出稿 | 2026.06<br>
+  每一条信息均标注来源，未验证项标注"（待核实）"
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('p-'+this.dataset.p).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
