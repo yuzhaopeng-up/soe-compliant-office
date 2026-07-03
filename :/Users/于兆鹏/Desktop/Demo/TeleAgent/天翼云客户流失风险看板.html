@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天翼云客户流失风险看板</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #f5f5f0;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7C59F 100%);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .header .meta {
+            font-size: 14px;
+            opacity: 0.9;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            height: calc(100vh - 180px);
+            min-height: 600px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1A659E;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F7C59F;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: #FF6B35;
+            border-radius: 2px;
+        }
+        
+        .chart-container {
+            flex: 1;
+            min-height: 0;
+        }
+        
+        /* 团队状态卡片样式 */
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            height: 100%;
+        }
+        
+        .role-card {
+            background: linear-gradient(135deg, #faf8f5 0%, #f5f0e8 100%);
+            border-radius: 10px;
+            padding: 16px;
+            border-left: 4px solid #FF6B35;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+        
+        .role-card:hover {
+            border-left-width: 6px;
+            background: linear-gradient(135deg, #fff8f0 0%, #faf0e0 100%);
+        }
+        
+        .role-card.analyst { border-left-color: #FF6B35; }
+        .role-card.engineer { border-left-color: #1A659E; }
+        .role-card.tester { border-left-color: #F7C59F; }
+        .role-card.auditor { border-left-color: #004E89; }
+        
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .role-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .role-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-partial {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .role-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        
+        .metric-label {
+            color: #666;
+        }
+        
+        .metric-value {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .confidence-bar {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+        
+        .fill-analyst { background: #FF6B35; }
+        .fill-engineer { background: #1A659E; }
+        .fill-tester { background: #F7C59F; }
+        .fill-auditor { background: #004E89; }
+        
+        /* 页脚 */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            padding: 12px;
+        }
+        
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>天翼云客户流失风险看板</h1>
+        <div class="meta">
+            <span>客户：天翼云科技有限公司</span>
+            <span>行业：云服务/科技</span>
+            <span>合同金额：500万</span>
+            <span>生成时间：2026-06-21</span>
+        </div>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- 左上：团队状态卡片 -->
+        <div class="card">
+            <div class="card-title">团队状态卡片</div>
+            <div class="team-grid">
+                <div class="role-card analyst">
+                    <div class="role-header">
+                        <span class="role-name">Analyst 数据分析师</span>
+                        <span class="role-status status-completed">已完成</span>
+                    </div>
+                    <div class="role-metrics">
+                        <div class="metric-row">
+                            <span class="metric-label">风险评分</span>
+                            <span class="metric-value">62.3</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">置信度</span>
+                            <span class="metric-value">72%</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill fill-analyst" style="width: 72%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="role-card engineer">
+                    <div class="role-header">
+                        <span class="role-name">Engineer 方案工程师</span>
+                        <span class="role-status status-completed">已完成</span>
+                    </div>
+                    <div class="role-metrics">
+                        <div class="metric-row">
+                            <span class="metric-label">方案数量</span>
+                            <span class="metric-value">5项</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">置信度</span>
+                            <span class="metric-value">85%</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill fill-engineer" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="role-card tester">
+                    <div class="role-header">
+                        <span class="role-name">Tester 验证测试员</span>
+                        <span class="role-status status-partial">部分通过</span>
+                    </div>
+                    <div class="role-metrics">
+                        <div class="metric-row">
+                            <span class="metric-label">可行性评分</span>
+                            <span class="metric-value">78</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">置信度</span>
+                            <span class="metric-value">82%</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill fill-tester" style="width: 82%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="role-card auditor">
+                    <div class="role-header">
+                        <span class="role-name">Auditor 合规审计员</span>
+                        <span class="role-status status-partial">有条件通过</span>
+                    </div>
+                    <div class="role-metrics">
+                        <div class="metric-row">
+                            <span class="metric-label">合规检查</span>
+                            <span class="metric-value">有条件通过</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">置信度</span>
+                            <span class="metric-value">85%</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill fill-auditor" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 右上：风险因子雷达图 -->
+        <div class="card">
+            <div class="card-title">风险因子雷达图</div>
+            <div id="radarChart" class="chart-container"></div>
+        </div>
+        
+        <!-- 左下：风险评分仪表盘 -->
+        <div class="card">
+            <div class="card-title">风险评分仪表盘</div>
+            <div id="gaugeChart" class="chart-container"></div>
+        </div>
+        
+        <!-- 右下：方案执行时间线 -->
+        <div class="card">
+            <div class="card-title">方案执行时间线</div>
+            <div id="timelineChart" class="chart-container"></div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        数据来源：Agent Teams Orchestrator V2 协作结果 | 可视化渲染：l3-vz-01 | 生成时间：2026-06-21
+    </div>
+
+    <script>
+        // Warm主题配色
+        const warmColors = ['#FF6B35', '#F7C59F', '#EFEFD0', '#004E89', '#1A659E'];
+        
+        // 1. 风险因子雷达图
+        const radarChart = echarts.init(document.getElementById('radarChart'));
+        const radarOption = {
+            color: warmColors,
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    let result = params.name + '<br/>';
+                    const values = params.value;
+                    const indicators = ['投诉密度', '工单积压率', '合同暴露度', '服务集中度', '合作粘性'];
+                    values.forEach((val, idx) => {
+                        result += indicators[idx] + ': ' + val + '<br/>';
+                    });
+                    return result;
+                }
+            },
+            radar: {
+                indicator: [
+                    { name: '投诉密度', max: 0.2 },
+                    { name: '工单积压率', max: 0.2 },
+                    { name: '合同暴露度', max: 0.2 },
+                    { name: '服务集中度', max: 0.2 },
+                    { name: '合作粘性', max: 0.2 }
+                ],
+                shape: 'polygon',
+                splitNumber: 4,
+                axisName: {
+                    color: '#333',
+                    fontSize: 12,
+                    fontWeight: 500
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#e0e0e0'
+                    }
+                },
+                splitArea: {
+                    show: true,
+                    areaStyle: {
+                        color: ['#fff', '#faf8f5', '#fff', '#faf8f5']
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#d0d0d0'
+                    }
+                }
+            },
+            series: [{
+                name: '风险因子',
+                type: 'radar',
+                data: [
+                    {
+                        value: [0.10, 0.13, 0.18, 0.07, 0.15],
+                        name: '当前风险',
+                        areaStyle: {
+                            color: 'rgba(255, 107, 53, 0.3)'
+                        },
+                        lineStyle: {
+                            color: '#FF6B35',
+                            width: 2
+                        },
+                        itemStyle: {
+                            color: '#FF6B35'
+                        }
+                    }
+                ]
+            }]
+        };
+        radarChart.setOption(radarOption);
+        
+        // 2. 风险评分仪表盘
+        const gaugeChart = echarts.init(document.getElementById('gaugeChart'));
+        const gaugeOption = {
+            color: warmColors,
+            tooltip: {
+                formatter: '{a} <br/>{b} : {c}'
+            },
+            series: [
+                {
+                    name: '风险评分',
+                    type: 'gauge',
+                    min: 0,
+                    max: 100,
+                    startAngle: 210,
+                    endAngle: -30,
+                    splitNumber: 10,
+                    radius: '85%',
+                    center: ['50%', '55%'],
+                    axisLine: {
+                        lineStyle: {
+                            width: 20,
+                            color: [
+                                [0.3, '#4CAF50'],
+                                [0.7, '#FF9800'],
+                                [1, '#F44336']
+                            ]
+                        }
+                    },
+                    pointer: {
+                        itemStyle: {
+                            color: '#FF6B35'
+                        },
+                        width: 6,
+                        length: '60%'
+                    },
+                    axisTick: {
+                        distance: -20,
+                        length: 8,
+                        lineStyle: {
+                            color: '#fff',
+                            width: 2
+                        }
+                    },
+                    splitLine: {
+                        distance: -20,
+                        length: 16,
+                        lineStyle: {
+                            color: '#fff',
+                            width: 3
+                        }
+                    },
+                    axisLabel: {
+                        color: '#666',
+                        distance: 30,
+                        fontSize: 12
+                    },
+                    title: {
+                        offsetCenter: [0, '30%'],
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: '#333'
+                    },
+                    detail: {
+                        valueAnimation: true,
+                        formatter: '{value}',
+                        fontSize: 48,
+                        fontWeight: 700,
+                        color: '#FF6B35',
+                        offsetCenter: [0, '-10%']
+                    },
+                    data: [
+                        {
+                            value: 62.3,
+                            name: '中高风险'
+                        }
+                    ]
+                }
+            ]
+        };
+        gaugeChart.setOption(gaugeOption);
+        
+        // 3. 方案执行时间线（甘特图）
+        const timelineChart = echarts.init(document.getElementById('timelineChart'));
+        
+        const tasks = [
+            { name: 'P0-客户成功经理1对1', level: 'P0', start: 0, end: 7, status: '进行中' },
+            { name: 'P0-工单积压清理', level: 'P0', start: 0, end: 14, status: '待开始' },
+            { name: 'P1-服务绑定增值', level: 'P1', start: 7, end: 21, status: '待开始' },
+            { name: 'P1-补充数据', level: 'P1', start: 14, end: 28, status: '阻塞' },
+            { name: 'P2-监控看板', level: 'P2', start: 21, end: 42, status: '待开始' }
+        ];
+        
+        const categories = tasks.map(t => t.name);
+        
+        const ganttData = tasks.map((task, index) => {
+            const colorMap = {
+                'P0': '#FF6B35',
+                'P1': '#1A659E',
+                'P2': '#F7C59F'
+            };
+            return {
+                name: task.level,
+                value: [
+                    index,
+                    task.start,
+                    task.end,
+                    task.end - task.start
+                ],
+                itemStyle: {
+                    color: colorMap[task.level]
+                }
+            };
+        });
+        
+        const timelineOption = {
+            color: warmColors,
+            tooltip: {
+                formatter: function(params) {
+                    const task = tasks[params.value[0]];
+                    return task.name + '<br/>' +
+                           '优先级: ' + task.level + '<br/>' +
+                           '开始: 第' + task.start + '天<br/>' +
+                           '结束: 第' + task.end + '天<br/>' +
+                           '持续: ' + (task.end - task.start) + '天<br/>' +
+                           '状态: ' + task.status;
+                }
+            },
+            grid: {
+                left: '20%',
+                right: '8%',
+                top: '8%',
+                bottom: '12%'
+            },
+            xAxis: {
+                type: 'value',
+                name: '天数',
+                nameLocation: 'middle',
+                nameGap: 30,
+                min: 0,
+                max: 45,
+                interval: 7,
+                axisLabel: {
+                    formatter: '第{value}天'
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#f0f0f0'
+                    }
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: categories,
+                axisLabel: {
+                    fontSize: 11,
+                    color: '#333'
+                },
+                axisLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                }
+            },
+            series: [
+                {
+                    type: 'custom',
+                    renderItem: function(params, api) {
+                        const categoryIndex = api.value(0);
+                        const start = api.coord([api.value(1), categoryIndex]);
+                        const end = api.coord([api.value(2), categoryIndex]);
+                        const height = api.size([0, 1])[1] * 0.6;
+                        
+                        const rectShape = echarts.graphic.clipRectByRect({
+                            x: start[0],
+                            y: start[1] - height / 2,
+                            width: end[0] - start[0],
+                            height: height
+                        }, {
+                            x: params.coordSys.x,
+                            y: params.coordSys.y,
+                            width: params.coordSys.width,
+                            height: params.coordSys.height
+                        });
+                        
+                        return rectShape && {
+                            type: 'rect',
+                            transition: ['shape'],
+                            shape: rectShape,
+                            style: api.style({
+                                fill: api.visual('color'),
+                                stroke: '#fff',
+                                lineWidth: 2
+                            })
+                        };
+                    },
+                    encode: {
+                        x: [1, 2],
+                        y: 0
+                    },
+                    data: ganttData
+                }
+            ]
+        };
+        timelineChart.setOption(timelineOption);
+        
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            radarChart.resize();
+            gaugeChart.resize();
+            timelineChart.resize();
+        });
+        
+        // 添加交互：点击角色卡片高亮对应图表
+        document.querySelectorAll('.role-card').forEach((card, index) => {
+            card.addEventListener('click', function() {
+                // 可以在这里添加更多交互逻辑
+                console.log('点击了角色卡片:', index);
+            });
+        });
+    </script>
+</body>
+</html>
