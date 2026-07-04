@@ -4,6 +4,9 @@ description: "Comprehensive document creation, editing, and analysis with suppor
 name_cn: "Word文档助手"
 description_cn: "支持创建、读取、编辑和整理 Word 文档，可用于报告、备忘录、信函、模板等正式文件的生成与排版，也能处理目录、标题、页码、表格、图片、批注和修订记录，适合把零散内容整理成规范、可交付的 .docx 文档。"
 license: Apache-2.0. LICENSE.txt has complete terms
+version: 1.0.0
+domain: document
+soe_relevance: 5
 ---
 
 # DOCX creation, editing, and analysis
