@@ -11,11 +11,7 @@ soe-compliant-office/
 │   ├── document/       # Domain 1: Document Operations (Phase 1)
 │   ├── compliance/     # Domain 2: Compliance & Security (Phase 2)
 │   └── reporting/      # Domain 3: Reporting & Analysis (Phase 3)
-├── shared/             # Cross-domain shared infrastructure
-│   ├── ooxml/          # OOXML base.py, pack.py, unpack.py (shared by pptx/docx/xlsx)
-│   ├── audit_trail.py  # Audit trail logging (all skills call this)
-│   ├── soe_standards/  # GB/T 9704 templates, DA/T archive specs, SASAC report formats
-│   └── desensitize.py  # Data classification & auto-desensitization utilities
+
 ├── docs/               # Architecture docs, integration guides
 ├── LICENSE             # Apache-2.0
 ├── CONTRIBUTING.md     # Contribution guide
@@ -40,75 +36,39 @@ soe-compliant-office/
 
 ### Python Module Conventions
 - All engine.py must expose `class SkillEngine` with `run(input_data: dict) -> dict`
-- All engine.py must call `shared.audit_trail.log_operation()` at entry and exit
-- All engine.py must import from `shared.ooxml.*` for OOXML operations (no local reimplementations)
+- All engine.py must log operations at entry and exit (audit trail integration point - implement per your infrastructure)
+- All engine.py must use a shared OOXML module for OOXML operations (no local reimplementations)
 
 ### SKILL.md Conventions
 - Must include YAML frontmatter with: name, name_cn, version, domain, soe_relevance
 - Must include section: "央国企特色" (SOE-specific features)
-- Must reference shared infrastructure when applicable
+- Must reference audit trail and desensitization integration points when applicable
 - Example domain values: `document`, `compliance`, `reporting`
 
 ## Cross-Domain Interfaces
 
 ### 1. Audit Trail (ALL skills MUST use)
 ```python
-from shared.audit_trail import log_operation, AuditLevel
-
-# Called at skill entry
-log_operation(
-    skill_name="contract-review",
-    action="start_review",
-    input_summary="Contract #2026-001, type=procurement",
-    level=AuditLevel.INFO
-)
-
-# Called at skill exit
-log_operation(
-    skill_name="contract-review",
-    action="complete_review",
-    output_summary="3 issues found, max risk=HIGH",
-    level=AuditLevel.INFO
-)
+# Audit trail integration point - implement per your infrastructure
+# Example: log skill entry/exit with name, action, summary, and level
 ```
 
 ### 2. SOE Standards Integration (Document domain MUST use)
 ```python
-from shared.soe_standards importGBT9704, DAT_ARCHIVE, SASAC_REPORT
-
-# Document generation with GB/T 9704 compliance
-doc = GBT9704.create_official_document(
-    doc_type="请示",  # One of 15 statutory document types
-    issuer="XX集团",
-    recipient="国资委",
-    classification="秘密",  # 秘密/机密/绝密
-    urgency="加急",  # 特急/加急
-)
+# SOE standards integration point - implement per your infrastructure
+# Example: GB/T 9704, DA/T archive, SASAC report format support
 ```
 
 ### 3. Data Classification & Desensitization (Compliance domain MUST use)
 ```python
-from shared.desensitize import classify_data, auto_desensitize
-
-# Before any output
-classified = classify_data(output_data)  # Returns: PUBLIC/INTERNAL/CONFIDENTIAL/SECRET
-if classified.level >= DataLevel.INTERNAL:
-    output_data = auto_desensitize(output_data, classified.fields)
+# Data classification & desensitization integration point - implement per your infrastructure
+# Example: classify output data and auto-desensitize sensitive fields
 ```
 
 ### 4. Human-in-Loop Integration (High-risk operations MUST trigger)
 ```python
-from shared.audit_trail import request_approval
-
-# Before executing high-risk operations
-approval = request_approval(
-    operation="archive_delete",
-    risk_level="L3",  # L1-L5 scale
-    description="Delete archived records older than 10 years",
-    requires_dual_sign=True  # 两人会签
-)
-if not approval.approved:
-    raise OperationBlocked("Approval denied")
+# Human-in-loop approval integration point - implement per your infrastructure
+# Example: request approval for high-risk operations with risk level and dual sign
 ```
 
 ## SOE Relevance Scoring
@@ -131,11 +91,13 @@ Every skill must declare its SOE relevance (1-5) in SKILL.md frontmatter:
 | Phase 2 | Compliance & Security | six-dimension-compliance-check, human-in-loop, security-guard, security-auditor, evidence-chain, red-team-tester | **DONE** |
 | Phase 3 | Reporting & Analysis | report-generator, data-analyst, finance-expert, business-analysis, gov-report-analyzer, social-security-advisor | **DONE** |
 
-## Shared Infrastructure Ownership
+## Shared Infrastructure (Design Pattern)
 
-| Component | Primary Owner | Used By |
-|-----------|--------------|---------|
-| shared/ooxml/ | pptx, docx, xlsx | All document skills |
-| shared/audit_trail.py | compliance domain | ALL skills (mandatory) |
-| shared/soe_standards/ | document domain | document + reporting |
-| shared/desensitize.py | compliance domain | ALL skills (mandatory) |
+The `shared/` directory is a **design pattern**, not existing code. Each domain implements these integration points independently:
+
+| Integration Point | Description | Used By |
+|-------------------|-------------|---------|
+| OOXML operations | Shared OOXML packing/unpacking logic | All document skills |
+| Audit trail | Operation logging (who/when/what) | ALL skills (recommended) |
+| SOE standards | GB/T 9704, DA/T archive, SASAC formats | document + reporting |
+| Data desensitization | Auto-classification and field-level masking | ALL skills (recommended) |
