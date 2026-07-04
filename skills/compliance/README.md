@@ -33,10 +33,10 @@ check       auditor      tester       loop         chain
 - DA/T 电子归档标准
 - 等保合规验证
 
-## Cross-Domain Dependencies
+## Skill Dependencies
 
-- All compliance skills use `shared/audit_trail.py` for operation logging
-- All compliance skills use `shared/desensitize.py` for data classification
 - `human-in-loop` depends on `security-guard` for risk assessment
 - `security-auditor` depends on `security-guard` for permission evaluation
 - `red-team-tester` pairs with `security-auditor` (static + dynamic verification)
+
+> Note: Each skill is self-contained. Audit trail and data desensitization are integration points to implement per your infrastructure.
