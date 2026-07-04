@@ -11,6 +11,9 @@ description: |
   Use cases: technical documentation, project planning, system design, brainstorming, data visualization, org structure, process mapping.
 name_cn: "图表绘制"
 description_cn: "通过自然语言即可生成各类专业图表与结构化图示。例如流程图、思维导图等"
+version: 1.0.0
+domain: document
+soe_relevance: 2
 ---
 
 ## Environment Prerequisites
