@@ -10,6 +10,8 @@
 
 **AI Agent Skills for Chinese State-Owned Enterprise (SOE) — Built-in Compliance, Audit Trail, National Standards.**
 
+[中文文档](./README_CN.md) | **English**
+
 This is NOT another generic office automation toolkit. Every skill is designed around **three principles that SOEs require but private-sector tools ignore**:
 
 | Principle | What It Means | Why SOEs Need It |
