@@ -4,6 +4,9 @@ description: "Comprehensive spreadsheet creation, editing, and analysis with sup
 name_cn: "Excel表格助手"
 description_cn: "支持创建、编辑和整理Excel、CSV 等表格文件，可用于数据录入、公式计算、格式调整、图表制作和数据清洗，适合把零散数据整理成规范、可直接使用的电子表格。"
 license: Apache-2.0. LICENSE.txt has complete terms
+version: 1.0.0
+domain: document
+soe_relevance: 3
 ---
 
 # Requirements for Outputs
