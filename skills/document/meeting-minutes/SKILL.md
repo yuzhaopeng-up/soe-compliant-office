@@ -10,6 +10,9 @@ description: >
 name_cn: 会议纪要整理
 description_cn: 整理会议纪要，自动提取时间、地点、参会人、决议事项和待办任务，生成结构化文档
 create_source: super-agent-skill-creator
+version: 1.0.0
+domain: document
+soe_relevance: 4
 ---
 
 # 会议纪要整理
