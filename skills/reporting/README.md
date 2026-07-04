@@ -32,12 +32,11 @@ analyst     business     generator    analyzer     security
 - DA/T电子归档标准
 - 中央企业合规管理办法
 
-## Cross-Domain Dependencies
+## Skill Dependencies
 
-- All reporting skills use `shared/audit_trail.py` for operation logging
-- All reporting skills use `shared/desensitize.py` for data classification
-- `report-generator` depends on `shared/soe_standards` for GB/T 9704 report templates
 - `data-analyst` feeds structured insights to `report-generator` and `business-analysis`
 - `finance-expert` uses `data-analyst` for financial metric computation
 - `gov-report-analyzer` feeds policy signals to `business-analysis` for strategic alignment
 - `social-security-advisor` provides Python calculation engine (`scripts/`)
+
+> Note: Each skill is self-contained. Audit trail, data desensitization, and SOE standards are integration points to implement per your infrastructure.
