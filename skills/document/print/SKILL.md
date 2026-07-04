@@ -4,6 +4,9 @@ description: "Universal document printing for PDF, Word, Excel, PowerPoint, and 
 name_cn: "智能打印"
 description_cn: "面向日常办公打印场景，支持常见文档一键打印，并智能推荐打印机、份数、单双面打印及纸张参数。"
 license: Apache-2.0. LICENSE.txt has complete terms
+version: 1.0.0
+domain: document
+soe_relevance: 3
 ---
 
 # Print Skill
