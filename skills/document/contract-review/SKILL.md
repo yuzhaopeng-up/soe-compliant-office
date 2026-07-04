@@ -3,6 +3,9 @@ name: contract-review
 description: "Contract review skill that adds comment-based issue annotations without changing original text. Enforces a three-layer review (basic, business, legal), writes structured comments (issue type, risk reason, revision suggestion) with risk level encoded via reviewer name, and generates a contract summary, consolidated opinion, and Mermaid business flowchart (with rendered image). Output language must follow the contract’s language."
 name_cn: "合同审核"
 description_cn: "智能审查合同文件，自动标注关键条款并添加批注，从基础、商业、法律三个层面生成审查清单，输出合同摘要、专业意见和可视化流程图，帮助快速识别合同风险点。"
+version: 1.0.0
+domain: document
+soe_relevance: 5
 ---
 
 # Contract Review Skill
