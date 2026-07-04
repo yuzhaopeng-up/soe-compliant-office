@@ -37,12 +37,8 @@ This is NOT another generic office automation toolkit. Every skill is designed a
 │  meeting     │                  │                        │
 │  print       │                  │                        │
 └──────────────┴──────────────────┴────────────────────────┘
-         ↕              ↕                   ↕
-    ┌──────────────────────────────────────────────┐
-    │       Shared Infrastructure (shared/)         │
-    │  ooxml/ · audit_trail · soe_standards         │
-    │  desensitize · soe_classification              │
-    └──────────────────────────────────────────────┘
+Note: Cross-domain shared infrastructure (audit trail, desensitization, SOE standards) is designed as a pattern.
+Each skill can be used independently.
 ```
 
 ## Phase 1: Document Operations (8 Skills — Available Now)
@@ -67,16 +63,11 @@ This is NOT another generic office automation toolkit. Every skill is designed a
 
 ### Shared Infrastructure
 
-The 4 core office skills (pptx/docx/xlsx/pdf) share an **OOXML infrastructure layer**:
+The 4 core office skills (pptx/docx/xlsx/pdf) share an **OOXML infrastructure layer** (design pattern — each skill includes its own implementation):
 
-```
-shared/ooxml/
-├── schemas/          # 39 XSD validation schemas (ISO-IEC29500-4)
-├── scripts/
-│   ├── pack.py       # ZIP-based OOXML package builder
-│   ├── unpack.py     # OOXML package extractor
-│   └── validate.py   # Schema + relationship validation
-```
+- OOXML schema validation (ISO-IEC29500-4)
+- ZIP-based package packing/unpacking
+- Schema + relationship validation
 
 ## Phase 2: Compliance & Security (6 Skills — Available Now)
 
