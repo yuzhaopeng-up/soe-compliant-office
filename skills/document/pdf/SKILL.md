@@ -11,7 +11,7 @@ description: "Full-spectrum PDF skill: visually polished document generation via
   REFORMAT: \"reformat this document\", \"apply our style\", \"convert markdown to PDF\"."
 name_cn: "PDF助手"
 description_cn: "支持读取、编辑和处理PDF文件，可用于提取文字和表格、合并与拆分页面、旋转与加水印、生成新PDF、填写表单以及对扫描件进行 OCR 识别，适合日常文档整理与内容提取。"
-license: Proprietary + MIT (PDF skill components)
+license: Apache-2.0 + MIT (PDF skill components)
 ---
 
 # PDF Skill — Full-Spectrum Document Processing
